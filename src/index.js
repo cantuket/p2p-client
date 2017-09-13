@@ -22,6 +22,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
+
 // Needed for onTouchTap with material-ui
 // http://stackoverflow.com/a/34015469/988941
 
