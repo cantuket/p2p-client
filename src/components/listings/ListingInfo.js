@@ -46,7 +46,7 @@ function mapStateToProps({listing}) {
 
 ListingInfo = reduxForm({
   form: 'editListingInfo',
-
+  enableReinitialize: true,
 })(ListingInfo)
 
 ListingInfo = connect(mapStateToProps,actions)(ListingInfo)

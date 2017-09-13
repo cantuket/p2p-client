@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { reduxForm, Field, Form } from 'redux-form';
 import ListingInfo from './ListingInfo';
-import ItemsInfo from './items/ItemInfo';
+import ItemInfo from './items/ItemInfo';
 import AddItem from './items/AddItem';
 import * as actions from '../../actions';
 import {Col, Row} from 'react-grid-system';
@@ -10,28 +11,40 @@ import { withRouter } from 'react-router-dom';
 
 class EditListing extends Component {
 
-  componentWillMount () {  
+  componentDidMount () {  
       const listingId = this.props.match.params.listingId;
       this.props.fetchSingleListing(listingId);
   }
 
+  renderItemForms() {
+    if (this.props.listing.listing !== undefined) {
+      return _.map(this.props.listing.listing.items, item => {
+          return (
+            <ItemInfo form={item._id} initialValues={item} key={item._id} item={item} /> 
+          );
+      });
+    }
+  }
+
   render() {
     return (
-      <div key={0}>
+      <div>
         <Row>
-          <Col key={0} md={6}>
+          <Col md={6}>
             <ListingInfo/>
           </Col>
-          <Col key={1} md={6}>  
+          <Col md={6}>  
             <AddItem/>
           </Col>
         </Row>
-        <Row>
-          <Col md={12}>
-            <h3>Current Items</h3>
-            <ItemsInfo/>
-          </Col>
-        </Row>
+          <Row>
+            <Col md={12}>
+              <h3>Current Items</h3>
+              <div className="row">
+              {this.renderItemForms()}
+             </div>
+            </Col>
+          </Row>
       </div>
     );
   }
@@ -41,4 +54,15 @@ function mapStateToProps({listing}) {
   return {listing};
 }
 
-export default connect(mapStateToProps,actions)(withRouter(EditListing))
+EditListing = reduxForm({
+  form: 'none',
+  fields: ["text"],
+  enableReinitialize: true,
+})(EditListing)
+
+EditListing = connect(mapStateToProps,actions)(EditListing)
+
+export default EditListing
+
+
+// export default connect(mapStateToProps,actions)(withRouter(EditListing))
