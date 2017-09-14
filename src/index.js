@@ -15,6 +15,7 @@ import NewListing from './components/listings/ListingNew';
 import Listings from './components/listings/ListingList';
 import EditListing from './components/listings/EditListing';
 import { PrivateRoute } from './components/auth/require_auth'
+import Search from './components/Search'
 import Feature from './components/feature'
 import reducers from './reducers'
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
@@ -61,6 +62,7 @@ ReactDOM.render(
             <PrivateRoute path="/create-listing" component={NewListing}/>
             <PrivateRoute path="/listings" component={Listings}/>
             <PrivateRoute path="/listing/:listingId" component={EditListing}/>
+            <PrivateRoute path="/search" component={Search}/>
           </div>
         </div>
       </MuiThemeProvider>

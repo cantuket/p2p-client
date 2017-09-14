@@ -23,13 +23,9 @@ class Header extends Component {
     this.state = {open: false};
   }
 
-
-
-
   renderLinks() {
     if (this.props.authenticated) {
       return [
-        
           <Link key={1} className="nav-item" to="/signout">
             <MenuItem className="nav-link">Sign Out</MenuItem>
           </Link>,
@@ -38,7 +34,10 @@ class Header extends Component {
           </Link>,
           <Link key={3} className="nav-item" to="/create-listing">
             <MenuItem>Create Listing</MenuItem>
-          </Link>
+          </Link>,
+          <Link key={4} className="nav-item" to="/search">
+          <MenuItem>Search Listing</MenuItem>
+        </Link>
       ]
     } else {
       return [
@@ -51,7 +50,10 @@ class Header extends Component {
           </Link>,
           <Link key={3} className="nav-item" to="/feature">
             <MenuItem>Protected Site </MenuItem>
-          </Link>
+          </Link>,
+          <Link key={4} className="nav-item" to="/search">
+          <MenuItem>Search Listings</MenuItem>
+        </Link>
       ]
     }
   }

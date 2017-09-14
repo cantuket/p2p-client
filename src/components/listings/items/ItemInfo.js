@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../../actions';
 import {Col} from 'react-grid-system';
 import RaisedButton from 'material-ui/RaisedButton';
+// import  ImageUploader from './ImageUploader';
 import $ from 'jquery';
 
 
@@ -32,7 +33,6 @@ class ItemInfo extends Component {
             <RaisedButton 
               onClick={()=>{
                 this.props.deleteItem(this.props.item._id, this.props.listingId);
-
               }}
               secondary={true} label="Remove Item"/>
             <RaisedButton 
@@ -47,6 +47,8 @@ class ItemInfo extends Component {
             }
             primary={true} label="Update Item"/>
           </form>
+          {/* <ImageUploader /> */}
+
         </Col>
     );
   }
@@ -54,7 +56,9 @@ class ItemInfo extends Component {
 
 
 function mapStateToProps(state, ownProps) {
-  return {  
+  console.log(state);
+  return { 
+    state,
     theItem:ownProps.item,
     listingId:ownProps.listingId,
     deleteItem:ownProps.deleteAction,
