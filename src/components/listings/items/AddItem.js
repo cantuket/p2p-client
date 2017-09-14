@@ -26,7 +26,7 @@ class AddItem extends Component {
     return (
         <form onSubmit={
              this.props.handleSubmit((values) => {
-              const listingId = this.props.listing['_id'];
+              const listingId = this.props.listing.listing['_id'];
               this.props.addItem(values,listingId);
               this.props.reset();
             })

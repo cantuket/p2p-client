@@ -55,7 +55,10 @@ const ListingFormReview = ({ onCancel, formValues, createListing, history, reset
 };
 
 function mapStateToProps(state) {
-  return { formValues: state.form.listingForm.values };
+  console.log(state);
+  return { 
+    formValues: state.form.listingForm.values,
+  };
 }
 
 export default connect(mapStateToProps, actions)(withRouter(ListingFormReview));

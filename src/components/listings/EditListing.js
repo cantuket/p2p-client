@@ -1,13 +1,12 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field, Form } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import ListingInfo from './ListingInfo';
 import ItemInfo from './items/ItemInfo';
 import AddItem from './items/AddItem';
 import * as actions from '../../actions';
 import {Col, Row} from 'react-grid-system';
-import { withRouter } from 'react-router-dom';
 
 class EditListing extends Component {
 
@@ -20,7 +19,7 @@ class EditListing extends Component {
     if (this.props.listing.listing !== undefined) {
       return _.map(this.props.listing.listing.items, item => {
           return (
-            <ItemInfo form={item._id} initialValues={item} key={item._id} item={item} /> 
+            <ItemInfo deletAction={this.props.deleteItem} updateAction={this.props.updateItem} form={`editItemInfo_${item._id}`} initialValues={item} key={item._id} item={item} listingId={this.props.listing.listing._id}/> 
           );
       });
     }
@@ -63,6 +62,3 @@ EditListing = reduxForm({
 EditListing = connect(mapStateToProps,actions)(EditListing)
 
 export default EditListing
-
-
-// export default connect(mapStateToProps,actions)(withRouter(EditListing))

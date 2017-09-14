@@ -1,15 +1,16 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { reduxForm, Field, Form } from 'redux-form';
+import { reduxForm, Field, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import * as actions from '../../../actions';
 import {Col} from 'react-grid-system';
 import RaisedButton from 'material-ui/RaisedButton';
+import $ from 'jquery';
 
 
 class ItemInfo extends Component {
 
-  renderSingleItem(item){
+  renderSingleItem(){
     let theItem =  _.map(_.omit(this.props.theItem, '_id'), (value,field) => {
         return (
           <div key={field}>
@@ -26,10 +27,25 @@ class ItemInfo extends Component {
   render() {      
     return (
         <Col key={this.props.theItem._id} md={3}>
-          <form>
+          <form id={this.props.theItem._id}>
             {this.renderSingleItem(this.props.theItem)}
-            <RaisedButton secondary={true} label="Remove Item"/>
-            <RaisedButton primary={true} label="Update Item"/>
+            <RaisedButton 
+              onClick={()=>{
+                this.props.deleteItem(this.props.item._id, this.props.listingId);
+
+              }}
+              secondary={true} label="Remove Item"/>
+            <RaisedButton 
+            onClick={()=>{
+                let values =  $('#'+this.props.theItem._id).serializeArray();
+                let inputs = {};
+                $.each(values, function(k, v){
+                    inputs[v.name]= v.value;
+                });
+                this.props.updateItem(inputs,this.props.theItem._id, this.props.listingId);
+              }
+            }
+            primary={true} label="Update Item"/>
           </form>
         </Col>
     );
@@ -38,15 +54,15 @@ class ItemInfo extends Component {
 
 
 function mapStateToProps(state, ownProps) {
-  console.log(ownProps);
   return {  
-    // initialValues:ownProps.item,
-    theItem:ownProps.item
+    theItem:ownProps.item,
+    listingId:ownProps.listingId,
+    deleteItem:ownProps.deleteAction,
+    updateItem:ownProps.updateAction
   };
 }
 
 ItemInfo = reduxForm({
-  // form: Math.random().toString(),
   fields: ["text"],
   enableReinitialize: true,
 })(ItemInfo)
@@ -54,16 +70,3 @@ ItemInfo = reduxForm({
 ItemInfo = connect(mapStateToProps,actions)(ItemInfo)
 
 export default ItemInfo
-
-// function mapStateToProps({listing}) {
-//   return { listing };
-// }
-
-// ItemInfo = reduxForm({
-  
-//   initialValues:
-// })(ItemInfo)
-
-// ItemInfo = connect(mapStateToProps,actions)(ItemInfo)
-
-// export default ItemInfo

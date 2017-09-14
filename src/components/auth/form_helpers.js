@@ -1,5 +1,4 @@
 import React from 'react'
-import TextField from 'material-ui/TextField'
 
 export const renderTextField = ({input, type, label, meta: {touched, error}, ...custom}) => (  // Define stateless component to render input and errors
   <div>
