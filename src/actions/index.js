@@ -151,12 +151,26 @@ export const deleteListing = (listingId, history) => async dispatch => {
   dispatch({type: FETCH_LISTING, payload: res.data});
 }
 
-export const updateItem = (values, itemId, listingId) => async dispatch => {
-  const res = await axios.post(`${ROOT_URL}/api/update-item`, {
-    values,
-    itemId: itemId,
-    listingId: listingId
-  }, {
+export const updateItem = (imageData, image, values, itemId, listingId) => async dispatch => {
+  console.log(values);
+  let data = {};
+  if (imageData !== null) {
+    data = {
+      imageData,
+      imageName:image.name,
+      imagetype:image.type,
+      values,
+      itemId,
+      listingId
+    }
+  } else {
+    data = {
+      values,
+      itemId,
+      listingId
+    }
+  }
+  const res = await axios.post(`${ROOT_URL}/api/update-item`, data, {
     headers: {
       authorization: localStorage.getItem('token')
     }
@@ -164,3 +178,20 @@ export const updateItem = (values, itemId, listingId) => async dispatch => {
 
   dispatch({type: FETCH_LISTING, payload: res.data});
 }
+
+
+
+
+  // var image = new FormData();
+  // image.append('fname', 'test.jpg');
+  // image.append('data', values.uploadfile);
+ 
+  // function dataURLtoBlob(dataurl) {
+  //     var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+  //         bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+  //     while(n--){
+  //         u8arr[n] = bstr.charCodeAt(n);
+  //     }
+  //     return new Blob([u8arr], {type:mime});
+  // }
+  // var blob = dataURLtoBlob(image);

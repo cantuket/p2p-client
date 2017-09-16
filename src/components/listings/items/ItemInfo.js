@@ -1,18 +1,19 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { reduxForm, Field, formValueSelector } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import * as actions from '../../../actions';
 import {Col} from 'react-grid-system';
 import RaisedButton from 'material-ui/RaisedButton';
-// import  ImageUploader from './ImageUploader';
+
+import FileInput4 from './FileInput4';
 import $ from 'jquery';
 
 
 class ItemInfo extends Component {
 
   renderSingleItem(){
-    let theItem =  _.map(_.omit(this.props.theItem, '_id'), (value,field) => {
+    let theItem =  _.map(_.omit(this.props.theItem, ['_id','imageUrl']), (value,field) => {
         return (
           <div key={field}>
             <label>{field}</label>
@@ -24,39 +25,76 @@ class ItemInfo extends Component {
       });
     return theItem || <div></div>;
   }
+  imagePreview () {
+    console.log(this.props.state);
+    // return(
+
+      if (this.props.state.form['editItemInfo_'+this.props.theItem._id] !== undefined) {
+        if (this.props.state.form['editItemInfo_'+this.props.theItem._id].values.uploadfile !== undefined) {
+          console.log(this.props.state.form['editItemInfo_'+this.props.theItem._id].values.uploadfile[0].preview);
+          return (
+            <div>
+              <h5>Upload preview</h5>
+              <img width="200px" src={this.props.state.form['editItemInfo_'+this.props.theItem._id].values.uploadfile[0].preview} />
+            </div>
+          );
+        }
+      }
+  }
+
+  getImage () {
+    if  (this.props.theItem.imageUrl !== undefined) {
+      return (
+      <div>
+        <h5>Current Image</h5>
+        <img width="200px"  src={this.props.theItem.imageUrl} />
+      </div>
+      );
+    }
+  }
 
   render() {      
     return (
         <Col key={this.props.theItem._id} md={3}>
-          <form id={this.props.theItem._id}>
+          <form id={this.props.theItem._id} >
             {this.renderSingleItem(this.props.theItem)}
+            {this.getImage()}
+            {this.imagePreview()}
+            <Field component={ FileInput4 } name='uploadfile' />
             <RaisedButton 
               onClick={()=>{
-                this.props.deleteItem(this.props.item._id, this.props.listingId);
-              }}
-              secondary={true} label="Remove Item"/>
+                  let inputs = this.props.state.form['editItemInfo_'+this.props.theItem._id].values;
+                  let values = _.omit(inputs,'uploadfile');
+                    if (inputs.uploadfile !== undefined ){
+                      let image = inputs.uploadfile[0];
+                      var reader = new FileReader();
+                        reader.onload = event => {
+                          this.props.updateItem(reader.result ,image, values, this.props.theItem._id, this.props.listingId);
+                        }
+                        reader.readAsDataURL(image)
+                    } else {
+                      this.props.updateItem(null ,null, values, this.props.theItem._id, this.props.listingId);
+                    }
+                  }
+                }
+              primary={true} 
+              label="Update Item"
+            />
             <RaisedButton 
-            onClick={()=>{
-                let values =  $('#'+this.props.theItem._id).serializeArray();
-                let inputs = {};
-                $.each(values, function(k, v){
-                    inputs[v.name]= v.value;
-                });
-                this.props.updateItem(inputs,this.props.theItem._id, this.props.listingId);
-              }
-            }
-            primary={true} label="Update Item"/>
+              onClick={()=>{this.props.deleteItem(this.props.item._id, this.props.listingId);}}
+              secondary={true} label="Remove Item"
+            />
           </form>
-          {/* <ImageUploader /> */}
-
+          
         </Col>
     );
   }
 }
 
 
+
 function mapStateToProps(state, ownProps) {
-  console.log(state);
+  console.log(ownProps);
   return { 
     state,
     theItem:ownProps.item,

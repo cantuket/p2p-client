@@ -14,6 +14,7 @@ import Signup from './components/auth/signup'
 import NewListing from './components/listings/ListingNew';
 import Listings from './components/listings/ListingList';
 import EditListing from './components/listings/EditListing';
+import FileUploadEx from './components/listings/FileUploadEx';
 import { PrivateRoute } from './components/auth/require_auth'
 import Search from './components/Search'
 import Feature from './components/feature'
@@ -62,7 +63,8 @@ ReactDOM.render(
             <PrivateRoute path="/create-listing" component={NewListing}/>
             <PrivateRoute path="/listings" component={Listings}/>
             <PrivateRoute path="/listing/:listingId" component={EditListing}/>
-            <PrivateRoute path="/search" component={Search}/>
+            <Route path="/search" component={Search}/>
+            <PrivateRoute path="/image" component={FileUploadEx}/>
           </div>
         </div>
       </MuiThemeProvider>

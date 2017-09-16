@@ -81,7 +81,7 @@ class ImageUploader extends Component {
         <div className='col-sm-12'>
           <label>Upload an image</label>
           <form onSubmit={this.handleSubmit} encType="multipart/form-data">
-            <input type="file" onChange={this.handleFile} />
+            <input name="file" type="file" onChange={this.handleFile} />
             <input disabled={this.state.processing} className='btn btn-primary' type="submit" value="Upload" />
             {processing}
           </form>
