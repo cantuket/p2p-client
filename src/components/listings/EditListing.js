@@ -7,6 +7,7 @@ import ItemInfo from './items/ItemInfo';
 import AddItem from './items/AddItem';
 import * as actions from '../../actions';
 import {Col, Row} from 'react-grid-system';
+import {Tabs, Tab} from 'material-ui/Tabs';
 
 class EditListing extends Component {
 
@@ -19,31 +20,44 @@ class EditListing extends Component {
     if (this.props.listing.listing !== undefined) {
       return _.map(this.props.listing.listing.items, item => {
           return (
-            <ItemInfo deletAction={this.props.deleteItem} updateAction={this.props.updateItem} form={`editItemInfo_${item._id}`} initialValues={item} key={item._id} item={item} listingId={this.props.listing.listing._id}/> 
+            <Tab key={item._id} label={item._id}>
+                <ItemInfo deletAction={this.props.deleteItem} updateAction={this.props.updateItem} form={`editItemInfo_${item._id}`} initialValues={item} key={item._id} item={item} listingId={this.props.listing.listing._id}/> 
+            </Tab>
           );
       });
     }
   }
 
+
+
   render() {
     return (
       <div>
         <Row>
-          <Col md={6}>
+          
+          <Col md={3}>
             <ListingInfo/>
           </Col>
-          <Col md={6}>  
-            <AddItem/>
+          <Col md={9}  style={{marginTop:'25px'}}>  
+            
+            <Row>
+              
+              <Col md={6}>
+                <h3>Items</h3>
+              </Col>
+              <Col md={6}>
+                <AddItem/>
+              </Col>
+            </Row>
+            <Row>
+              <Tabs>
+                {this.renderItemForms()}
+              </Tabs>
+            </Row> 
+          
           </Col>
         </Row>
-          <Row>
-            <Col md={12}>
-              <h3>Current Items</h3>
-              <div className="row">
-              {this.renderItemForms()}
-             </div>
-            </Col>
-          </Row>
+       
       </div>
     );
   }

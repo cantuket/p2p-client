@@ -3,38 +3,34 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import * as actions from '../../../actions';
-import {Col} from 'react-grid-system';
+import {Col,Row} from 'react-grid-system';
 import RaisedButton from 'material-ui/RaisedButton';
 
-import FileInput4 from './FileInput4';
+import FileInput from './FileInput';
 import $ from 'jquery';
 
 
 class ItemInfo extends Component {
-
+  
   renderSingleItem(){
     let theItem =  _.map(_.omit(this.props.theItem, ['_id','imageUrl']), (value,field) => {
         return (
-          <div key={field}>
+          <Col md={4} key={field}>
             <label>{field}</label>
             <Field component="input" type="text" name={field} style={{ marginBottom: '5px' }} />
-            <div className="red-text" style={{ marginBottom: '20px' }}>
-            </div>
-          </div>
+            <div className="red-text" style={{ marginBottom: '20px' }}></div>
+          </Col>
         );
       });
     return theItem || <div></div>;
   }
   imagePreview () {
-    console.log(this.props.state);
-    // return(
-
       if (this.props.state.form['editItemInfo_'+this.props.theItem._id] !== undefined) {
         if (this.props.state.form['editItemInfo_'+this.props.theItem._id].values.uploadfile !== undefined) {
           console.log(this.props.state.form['editItemInfo_'+this.props.theItem._id].values.uploadfile[0].preview);
           return (
             <div>
-              <h5>Upload preview</h5>
+              <h5>Preview</h5>
               <img width="200px" src={this.props.state.form['editItemInfo_'+this.props.theItem._id].values.uploadfile[0].preview} />
             </div>
           );
@@ -55,12 +51,21 @@ class ItemInfo extends Component {
 
   render() {      
     return (
-        <Col key={this.props.theItem._id} md={3}>
-          <form id={this.props.theItem._id} >
+        <Col key={this.props.theItem._id} md={12}>
+          <form id={this.props.theItem._id} style={{marginTop:'20px'}}>
             {this.renderSingleItem(this.props.theItem)}
-            {this.getImage()}
-            {this.imagePreview()}
-            <Field component={ FileInput4 } name='uploadfile' />
+            <Row>
+              <Col md={4}>
+                {this.getImage()}
+              </Col>
+              <Col md={4}>
+              {this.imagePreview()}
+              </Col>
+              <Col md={4}>
+              <Field component={ FileInput } name='uploadfile' />
+              </Col>
+            </Row>
+            
             <RaisedButton 
               onClick={()=>{
                   let inputs = this.props.state.form['editItemInfo_'+this.props.theItem._id].values;

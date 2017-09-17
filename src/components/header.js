@@ -26,32 +26,32 @@ class Header extends Component {
   renderLinks() {
     if (this.props.authenticated) {
       return [
-          <Link key={1} className="nav-item" to="/signout">
+          <Link key={1} className="nav-item" to="/signout"  onClick={(close) => this.setState({open: false})}>
             <MenuItem className="nav-link">Sign Out</MenuItem>
           </Link>,
-          <Link key={2} className="nav-item" to="/listings">
+          <Link key={2} className="nav-item" to="/listings"  onClick={(close) => this.setState({open: false})}>
             <MenuItem className="nav-link">Listings</MenuItem>
           </Link>,
-          <Link key={3} className="nav-item" to="/create-listing">
+          <Link key={3} className="nav-item" to="/create-listing"  onClick={(close) => this.setState({open: false})}>
             <MenuItem>Create Listing</MenuItem>
           </Link>,
-          <Link key={4} className="nav-item" to="/search">
+          <Link key={4} className="nav-item" to="/search"  onClick={(close) => this.setState({open: false})}>
           <MenuItem>Search Listing</MenuItem>
         </Link>
       ]
     } else {
       return [
         
-          <Link key={1} className="nav-item" to="/signin">
+          <Link key={1} className="nav-item" to="/signin"  onClick={(close) => this.setState({open: false})}>
             <MenuItem>Sign In</MenuItem>
             </Link>,
-          <Link key={2} className="nav-item" to="/signup">
+          <Link key={2} className="nav-item" to="/signup"  onClick={(close) => this.setState({open: false})}>
             <MenuItem>Sign Up</MenuItem>
           </Link>,
-          <Link key={3} className="nav-item" to="/feature">
+          <Link key={3} className="nav-item" to="/feature"  onClick={(close) => this.setState({open: false})}>
             <MenuItem>Protected Site </MenuItem>
           </Link>,
-          <Link key={4} className="nav-item" to="/search">
+          <Link key={4} className="nav-item" to="/search"  onClick={(close) => this.setState({open: false})}>
           <MenuItem>Search Listings</MenuItem>
         </Link>
       ]
@@ -96,6 +96,8 @@ class Header extends Component {
           open={this.state.open}
           onRequestChange={(open) => this.setState({open})}
           children={this.renderLinks()}
+          onRequestClose={this.handleClose}
+         
         >
         </Drawer>
       </div>

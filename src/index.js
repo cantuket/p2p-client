@@ -19,10 +19,11 @@ import { PrivateRoute } from './components/auth/require_auth'
 import Search from './components/Search'
 import Feature from './components/feature'
 import reducers from './reducers'
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+// import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import {Col, Row} from 'react-grid-system';
 
 
 // Needed for onTouchTap with material-ui
@@ -51,20 +52,26 @@ if (token) {
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+      <MuiThemeProvider 
+      //muiTheme={getMuiTheme(darkBaseTheme)}
+      >
         <div>
           <Header/>
-          <div className="body container">
-            <Route path="/" exact={true} component={Welcome}/>
-            <Route path="/signin" component={Signin}/>
-            <Route path="/signout" component={Signout}/>
-            <Route path="/signup" component={Signup}/>
-            <PrivateRoute path="/feature" component={Feature}/>
-            <PrivateRoute path="/create-listing" component={NewListing}/>
-            <PrivateRoute path="/listings" component={Listings}/>
-            <PrivateRoute path="/listing/:listingId" component={EditListing}/>
-            <Route path="/search" component={Search}/>
-            <PrivateRoute path="/image" component={FileUploadEx}/>
+          <div className="body">
+            <Row>
+              <Col md={10} offset={{md:1}}>
+                <Route path="/" exact={true} component={Welcome}/>
+                <Route path="/signin" component={Signin}/>
+                <Route path="/signout" component={Signout}/>
+                <Route path="/signup" component={Signup}/>
+                <PrivateRoute path="/feature" component={Feature}/>
+                <PrivateRoute path="/create-listing" component={NewListing}/>
+                <PrivateRoute path="/listings" component={Listings}/>
+                <PrivateRoute path="/listing/:listingId" component={EditListing}/>
+                <Route path="/search" component={Search}/>
+                <PrivateRoute path="/image" component={FileUploadEx}/>
+              </Col>
+            </Row>
           </div>
         </div>
       </MuiThemeProvider>

@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import RaisedButton from 'material-ui/RaisedButton';
+import {Col, Row} from 'react-grid-system';
 
 class ListingInfo extends Component {
 
@@ -13,12 +14,12 @@ class ListingInfo extends Component {
       
       let items = _.map(theListing, (value,field) => {
         return (
-          <div key={field}>
+          <Col md={12} key={field}>
             <label>{field}</label>
             <Field component="input" type="text" name={field} style={{ marginBottom: '5px' }} />
             <div className="red-text" style={{ marginBottom: '20px' }}>
             </div>
-          </div>
+          </Col>
         );
       });
       return items || <div></div>;
@@ -29,8 +30,10 @@ class ListingInfo extends Component {
         <form onSubmit={
             this.props.handleSubmit((values) =>this.props.updateListing(values)) 
         }>
-          <h2>Listing Info</h2>
-          {this.renderListingInfo()}
+          <h1>Info</h1>
+          <Row>
+            {this.renderListingInfo()}
+          </Row>
           <RaisedButton type="submit"  primary={true} label="Update Info" />
           <RaisedButton 
           onClick={()=>{
