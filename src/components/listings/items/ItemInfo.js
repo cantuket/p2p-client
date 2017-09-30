@@ -40,13 +40,17 @@ class ItemInfo extends Component {
     return (
         <Col key={this.props.theItem._id} md={12}>
           <form id={this.props.theItem._id} style={{marginTop:'20px'}}>
-            {this.renderSingleItem(this.props.theItem)}
+            <Row>
+              <Col md={12}>
+                {this.renderSingleItem(this.props.theItem)}
+              </Col>
+            </Row>
             <Row>
               <Col md={4}>
                 {this.getImage()}
               </Col>
               <Col md={8}>
-              <Field component={ FileInput } name='uploadfile' /*change={this.props.change} data64bit="only"*/ />
+                <Field component={ FileInput } name='uploadfile' /*change={this.props.change} data64bit="only"*/ />
               </Col>
             </Row>
             
