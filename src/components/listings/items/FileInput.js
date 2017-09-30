@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Dropzone from 'react-dropzone';
-
+import $ from 'jquery'
+// import { change } from 'redux-form';
+// import { connect } from 'react-redux';
 
 const dropSectionBody = {
   marginBottom:'-80px',
@@ -44,27 +46,49 @@ export default class FileField extends Component {
   }
 
   render() {
-    let {input, meta: {touched, error}} = this.props;
+    let {input, data64bit,change, meta: {touched, error}} = this.props;
+    
+    // if (data64bit && input && input.value && input.value[0]) {
+    //   let file = input.value[0];
+    //   let reader = new FileReader();
+    //   reader.onload = event => {
+    //     if (data64bit === "only") {
+    //       change(input.name,reader.result);
+    //       console.log(this);
+    //     } else {
+    //       this.props.value.data64bit = reader.result;
+    //     }
+    //   }
+    //   reader.readAsDataURL(file)
+    // }
     let {accept, multiple} = this.props;
     let selectedFile = (input && input.value && input.value[0]) || null;
     let dropzoneProps = {
       accept,
       multiple,
-      onDrop: this.handleDropOrClick,
-      // style:{
-      //   width:'100px',
-      //   height:'100px',
-      //   border:'3px solid #000'
-      // }      
+      onDrop: this.handleDropOrClick
     };
     return (
       <div style={fileUploader}>
-         <h5 style={dropSectionHeader}>Change Photo</h5>
-        <input type='hidden' id="theFile" disabled {...input} />
-        <p style={dropSectionBody}>Drag Image or Click Here</p>
-        {/*selectedFile? <span>{selectedFile.name}</span> : null*/}
-        <Dropzone {...dropzoneProps} />  
+        <div style={{width:'50%',float:'left'}}>
+          {selectedFile? 
+            <span>
+                <h6>Image Preview</h6>
+                <img width="200px" src={selectedFile.preview}/>
+                <span>{selectedFile.name}</span> 
+            </span> : null}
+        </div>
+        <div style={{width:'50%',float:'right'}}>
+          <h5 style={dropSectionHeader}>Change Photo</h5>
+          <input type='hidden' id="theFile" disabled {...input} />
+          <p style={dropSectionBody}>Drag Image or Click Here</p>
+          <Dropzone {...dropzoneProps} />  
+        </div>
       </div>
       );
   }
 }
+
+
+
+

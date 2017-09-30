@@ -24,19 +24,6 @@ class ItemInfo extends Component {
       });
     return theItem || <div></div>;
   }
-  imagePreview () {
-      if (this.props.state.form['editItemInfo_'+this.props.theItem._id] !== undefined) {
-        if (this.props.state.form['editItemInfo_'+this.props.theItem._id].values.uploadfile !== undefined) {
-          console.log(this.props.state.form['editItemInfo_'+this.props.theItem._id].values.uploadfile[0].preview);
-          return (
-            <div>
-              <h5>Preview</h5>
-              <img width="200px" src={this.props.state.form['editItemInfo_'+this.props.theItem._id].values.uploadfile[0].preview} />
-            </div>
-          );
-        }
-      }
-  }
 
   getImage () {
     if  (this.props.theItem.imageUrl !== undefined) {
@@ -58,18 +45,15 @@ class ItemInfo extends Component {
               <Col md={4}>
                 {this.getImage()}
               </Col>
-              <Col md={4}>
-              {this.imagePreview()}
-              </Col>
-              <Col md={4}>
-              <Field component={ FileInput } name='uploadfile' />
+              <Col md={8}>
+              <Field component={ FileInput } name='uploadfile' /*change={this.props.change} data64bit="only"*/ />
               </Col>
             </Row>
             
             <RaisedButton 
               onClick={()=>{
                   let inputs = this.props.state.form['editItemInfo_'+this.props.theItem._id].values;
-                  let values = _.omit(inputs,'uploadfile');
+                   let values = _.omit(inputs,'uploadfile');
                     if (inputs.uploadfile !== undefined ){
                       let image = inputs.uploadfile[0];
                       var reader = new FileReader();
@@ -77,8 +61,8 @@ class ItemInfo extends Component {
                           this.props.updateItem(reader.result ,image, values, this.props.theItem._id, this.props.listingId);
                         }
                         reader.readAsDataURL(image)
-                    } else {
-                      this.props.updateItem(null ,null, values, this.props.theItem._id, this.props.listingId);
+                    } else { 
+                      this.props.updateItem(null ,null, inputs, this.props.theItem._id, this.props.listingId);
                     }
                   }
                 }
@@ -99,7 +83,6 @@ class ItemInfo extends Component {
 
 
 function mapStateToProps(state, ownProps) {
-  console.log(ownProps);
   return { 
     state,
     theItem:ownProps.item,
