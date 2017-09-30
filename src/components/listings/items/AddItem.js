@@ -63,7 +63,7 @@ class AddItem extends Component {
         />
         <Dialog
           title="Add Item to Listing"
-          actions={actions}
+         // actions={actions}
           modal={false}
           open={this.state.open}
           onRequestClose={this.handleClose}
