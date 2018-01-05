@@ -8,7 +8,7 @@ import {
   FETCH_LISTINGS,
   FETCH_LISTING
 } from './types'
-const ROOT_URL = 'http://35.184.166.83:3090'
+const ROOT_URL = 'http://p2p.kgermaine.com:3090'
 // const ROOT_URL = 'http://localhost:3090'
 
 export function signinUser({email, password}) {
